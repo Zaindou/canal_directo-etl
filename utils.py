@@ -7,15 +7,15 @@ bq = BQConnection()
 
 def get_client_qnt():
     query = """
-    SELECT numero_identificacion, MAX(id_cliente_sf) as id_cliente_sf, nombre_hc, 
-    etapa_maxima, primer_nombre, puntaje_crediticio, objetivo_financiero, 
+    SELECT numero_identificacion, MAX(id_cliente_sf) as id_cliente_sf, nombre_hc,
+    etapa_maxima, operado_por, puntaje_crediticio, objetivo_financiero, 
     porcentaje_avance_objetivo, calificacion_riesgo, ingresos_mensuales, 
     cantidad_productos, productos_mora, saldo_total_general, 
     saldo_deudas_general, MAX(fecha_creacion) as fecha_creacion
     FROM canal_directo_financialdiagnostic as fd
     JOIN canal_directo_diagnosticresult as dr ON fd.numero_identificacion = dr.diagnostic_id 
     JOIN canal_directo_products as p ON fd.numero_identificacion = p.product_id
-    GROUP BY numero_identificacion, nombre_hc, etapa_maxima, primer_nombre, 
+    GROUP BY numero_identificacion, nombre_hc, etapa_maxima, operado_por,
     puntaje_crediticio, objetivo_financiero, porcentaje_avance_objetivo, 
     calificacion_riesgo, ingresos_mensuales, cantidad_productos, productos_mora, 
     saldo_total_general, saldo_deudas_general
@@ -38,13 +38,12 @@ def get_products_other_entities():
 
 def get_qnt_products():
     query = """
-    SELECT numero_identificacion, id_cliente_sf, nombre_hc, objetivo_financiero,
+    SELECT numero_identificacion, id_cliente_sf, nombre_hc, operado_por, objetivo_financiero,
     entidad, tipo_cuenta, id_cuenta, estado, antiguedad, dias_en_mora, saldo_total, cuota, participacion_mora, fecha_creacion
     FROM canal_directo_financialdiagnostic as fd
     JOIN canal_directo_diagnosticresult as dr ON fd.numero_identificacion = dr.diagnostic_id 
     JOIN canal_directo_products as p ON fd.numero_identificacion = p.product_id
     WHERE p.es_producto_qnt = True
-    AND WHERE DATE(fecha_creacion) = DATE(NOW())
     """
     return db.fetch(query)
 

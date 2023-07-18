@@ -94,6 +94,7 @@ def load_qnt_products():
                 "numero_identificacion",
                 "id_cliente_sf",
                 "nombre_cliente",
+                "operado_por",
                 "objetivo_financiero",
                 "entidad",
                 "tipo_cuenta",
@@ -127,6 +128,9 @@ def load_qnt_products():
                         "saldo_capital": offers_data.get("saldo_capital", None),
                         "plazo": term,
                         "cuota": offers_data.get("cuota", None),
+                        "porcentaje_recuperacion_capital": offers_data.get(
+                            "porcentaje_recuperacion_capital", None
+                        ),
                         "puntaje_por_cuota": term_data.get("puntaje_por_cuota", None),
                         "nuevo_puntaje": term_data.get("nuevo_puntaje", None),
                         "porcentaje_hacia_objetivo": term_data.get(
@@ -154,4 +158,4 @@ def load_qnt_products():
         return False
 
 
-print(load_qnt_products())
+print(load_client_data_to_bq())
