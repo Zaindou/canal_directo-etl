@@ -33,7 +33,7 @@ def load_client_data_to_bq():
                 "fecha_diagnostico",
             ],
         )
-        table_id = "Digital1.Canal_directo_clientes"
+        table_id = "Canal_Directo.Canal_directo_clientes"
         bq.load_data(df, table_id)
 
         return True
@@ -75,7 +75,7 @@ def load_other_products_entities_to_bq():
         merged_df = pd.merge(products_df, contact_df, on="entidad", how="left")
 
         merged_df.fillna("Sin informacion.", inplace=True)
-        table_id = "Digital1.Canal_directo_otras_entidades"
+        table_id = "Canal_Directo.Canal_directo_otras_entidades"
         bq.load_data(merged_df, table_id)
 
         return True
@@ -114,9 +114,10 @@ def load_qnt_products():
             for id in products_df["numero_identificacion"].unique()
         ]
 
+            
         api_df_list = []
         for data_dict in api_data:
-            for item in data_dict.get("wazeQnt", []):
+            for item in data_dict.get("wazeQnt", [])["products_with_offer"]:
                 for term in item["scores_by_term"].keys():
                     term_data = item["scores_by_term"].get(term, {})
                     offers_data = (
@@ -144,11 +145,13 @@ def load_qnt_products():
 
         api_df = pd.DataFrame(api_df_list)
 
+
         final_df = pd.merge(
             products_df, api_df, left_on="id_cuenta", right_on="producto", how="left"
         )
 
-        table_id = "Digital1.Canal_directo_productos_qnt"
+
+        table_id = "Canal_Directo.Canal_directo_productos_qnt"
         bq.load_data(final_df, table_id)
 
         return True
@@ -158,4 +161,15 @@ def load_qnt_products():
         return False
 
 
-print(load_client_data_to_bq())
+
+def exect_automate_all_functions():
+    try:
+        load_client_data_to_bq()
+        load_other_products_entities_to_bq()
+        load_qnt_products()
+        return True
+    except Exception as e:
+        print(e, "Error al ejecutar la automatizacion")
+        return False
+
+exect_automate_all_functions()
