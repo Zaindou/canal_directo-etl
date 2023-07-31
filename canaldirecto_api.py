@@ -30,3 +30,4 @@ class CanalDirectoConection:
             self.url + path, data=json.dumps(data), headers=self.headers
         )
         return response.json()
+

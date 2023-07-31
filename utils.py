@@ -31,7 +31,6 @@ def get_products_other_entities():
     JOIN canal_directo_diagnosticresult as dr ON fd.numero_identificacion = dr.diagnostic_id 
     JOIN canal_directo_products as p ON fd.numero_identificacion = p.product_id
     WHERE p.es_producto_qnt = False
-    AND WHERE DATE(fecha_creacion) = DATE(NOW())
     """
     return db.fetch(query)
 
@@ -46,7 +45,6 @@ def get_qnt_products():
     WHERE p.es_producto_qnt = True
     """
     return db.fetch(query)
-
 
 def get_contact_other_entities():
     query = """
