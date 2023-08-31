@@ -28,3 +28,4 @@ class DBConnection:
     def __del__(self):
         self.cursor.close()
         self.conn.close()
+

@@ -142,9 +142,9 @@ def load_qnt_products():
                         ),
                     }
                     api_df_list.append(selected_data)
+                    print(selected_data, "selected_data")
 
         api_df = pd.DataFrame(api_df_list)
-
 
         final_df = pd.merge(
             products_df, api_df, left_on="id_cuenta", right_on="producto", how="left"
@@ -162,14 +162,17 @@ def load_qnt_products():
 
 
 
-def exect_automate_all_functions():
-    try:
-        load_client_data_to_bq()
-        load_other_products_entities_to_bq()
-        load_qnt_products()
-        return True
-    except Exception as e:
-        print(e, "Error al ejecutar la automatizacion")
-        return False
+# def exect_automate_all_functions():
+#     try:
+#         load_client_data_to_bq()
+#         load_other_products_entities_to_bq()
+#         load_qnt_products()
+#         return True
+#     except Exception as e:
+#         print(e, "Error al ejecutar la automatizacion")
+#         return False
 
-exect_automate_all_functions()
+# exect_automate_all_functions()
+
+# load_other_products_entities_to_bq()
+load_qnt_products()
